@@ -17,10 +17,10 @@ export function TaskList() {
     // Crie uma nova task com um id random, não permita criar caso o título seja vazio.
     if (!newTaskTitle) return
 
-    let newId = Math.floor(Math.random() * 10000)
+    let newId = Math.random();
 
     while (tasks.find((task) => task.id === newId)) {
-      newId = Math.floor(Math.random() * 10000)
+      newId = Math.random();
     }
 
     setTasks([
@@ -44,17 +44,32 @@ export function TaskList() {
     })
 
     setTasks([...tempTasks]);
+
+
+    // Outra forma de implementar
+
+    const newTasks = tasks.map(task => task.id === id ? {
+      ...task,
+      isComplete: !task.isComplete
+    } : task);
+
+    setTasks(newTasks)
   }
 
   function handleRemoveTask(id: number) {
     // Remova uma task da listagem pelo ID
-    const tempTasks = tasks;
 
+    /* Também funciona mas o código é maior
+    const tempTasks = tasks;
     const currentId = tempTasks.findIndex((task) => task.id === id);
 
     tempTasks.splice(currentId, 1)
 
     setTasks([...tempTasks]);
+    */
+    const filteredTasks = tasks.filter(task => task.id !== id);
+
+    setTasks(filteredTasks)
   }
 
   return (
